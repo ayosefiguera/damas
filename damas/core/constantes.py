@@ -1,0 +1,16 @@
+#Constantes
+
+WIDTH = HEIGHT = 800
+
+
+
+#Colores
+BLANCO = (255, 255 , 240)
+NEGRO = (0, 0, 0)
+
+#Tablero
+COLUMNAS = FILAS = 8
+
+DIMENSION_CASILLAS = WIDTH / COLUMNAS
+
+
