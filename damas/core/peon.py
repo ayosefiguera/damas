@@ -1,6 +1,9 @@
-from damas.core.constantes import NEGRO, BLANCO
+import pygame
+from .constantes import NEGRO, BLANCO, DIMENSION_CASILLAS, GRIS, BLANCO, NEGRO, CORONA
 
 class Peon:
+    RADIUS = 25
+    PADDING = 3
 
     def __init__(self, columna, fila):
         
@@ -18,9 +21,22 @@ class Peon:
 
     def color_init(self):
         if self.fila < 4:
-            return NEGRO
-        else:
             return BLANCO
+        else:
+            return NEGRO
+            
+    def calcular_posicion(self):
+        return self.columna*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2, self.fila*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
+
+    def dibujar(self, WIN):
+        x, y = self.calcular_posicion()
+
+        pygame.draw.circle(WIN, GRIS, (x, y), self.RADIUS + self.PADDING)
+        pygame.draw.circle(WIN, self.color, (x, y), self.RADIUS)
+
+        if self.reina:
+            WIN.blit(CORONA, (x - CORONA.get_width() //
+                              2, y - CORONA.get_height()//2))
 
     def __repr__(self):
         return self.color
