@@ -1,5 +1,5 @@
 import pygame
-from .constantes import NEGRO, BLANCO, DIMENSION_CASILLAS, GRIS, BLANCO, NEGRO, CORONA
+from .constantes import NEGRO, BLANCO, DIMENSION_CASILLAS, GRIS, BLANCO, NEGRO, CORONA, AMARILLO
 
 class Peon:
     RADIUS = 25
@@ -11,13 +11,22 @@ class Peon:
         self.fila = fila
         self.reina = False
         self.color = self.color_init()
+        self.select = False
 
     def soy_reina(self):
         self.reina = True
 
-    def mover(self, columna, fila):
+    def swicht_Select(self):
+        if self.select:
+            self.select = False
+        else:
+            self.select = True
+
+    def mov(self, columna, fila):
         self.fila = fila
         self.columna = columna
+        if fila == 0 or fila == 7:
+           self.soy_reina()
 
     def color_init(self):
         if self.fila < 4:
@@ -25,13 +34,19 @@ class Peon:
         else:
             return NEGRO
             
-    def calcular_posicion(self):
-        return self.columna*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2, self.fila*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
+    def calc_position(self):
+        x = self.columna * DIMENSION_CASILLAS + DIMENSION_CASILLAS // 2
+        y = self.fila*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
+        return x, y
 
-    def dibujar(self, WIN):
-        x, y = self.calcular_posicion()
+    def draw(self, WIN):
+        x, y = self.calc_position()
 
-        pygame.draw.circle(WIN, GRIS, (x, y), self.RADIUS + self.PADDING)
+        if self.select:
+            pygame.draw.circle(WIN, AMARILLO, (x, y), self.RADIUS + self.PADDING)
+        else:
+            pygame.draw.circle(WIN, GRIS, (x, y), self.RADIUS + self.PADDING)
+
         pygame.draw.circle(WIN, self.color, (x, y), self.RADIUS)
 
         if self.reina:
@@ -42,4 +57,4 @@ class Peon:
         return self.color
 
     def __str__(self):
-        return f'Peon {self.color} POS{self.columna},{self.fila}'
+        return f'Peon{self.color}'

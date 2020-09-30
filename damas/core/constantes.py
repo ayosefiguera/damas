@@ -9,6 +9,7 @@ FPS = 60
 BLANCO = (255, 255 , 240)
 NEGRO = (0, 0, 0)
 GRIS = (128, 128, 128)
+AMARILLO = (204, 255, 229)
 
 CORONA = pygame.image.load('damas/assets/queen.png')
 

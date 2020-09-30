@@ -5,7 +5,7 @@ from damas.core.tablero import Tablero
 
 class TestCaseTablero(unittest.TestCase):
 
-    def test_Tablero_inizializar(self):
+    def test_Tablero_initiate(self):
         tablero = Tablero()
         self.assertEqual(len(tablero.tablero), COLUMNAS)
         for col in range(COLUMNAS):

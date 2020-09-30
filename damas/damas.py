@@ -1,14 +1,19 @@
 import pygame
-from core.constantes import WIDTH, HEIGHT, FPS
+from core.constantes import WIDTH, HEIGHT, FPS, DIMENSION_CASILLAS
 from core.tablero import Tablero
+from core.game import Game
 
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Damas')
 
+def piece_position(event_pos):
+    x, y = event_pos
+    return int(x // DIMENSION_CASILLAS), int(y // DIMENSION_CASILLAS)
+
 
 def main():
-    juego = Tablero()
+    juego = Game()
     clock = pygame.time.Clock()
     run = True
 
@@ -17,8 +22,15 @@ def main():
         clock.tick(FPS)
 
         for event in pygame.event.get():
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                col, fila = piece_position(event.pos)
+                juego.select(col, fila)
+            
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                juego.restart()
+
             if event.type == pygame.QUIT:
                 run = False
-        juego.dibujar_tablero(WIN)
-        
+        juego.draw(WIN)    
 main()
