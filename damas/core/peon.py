@@ -5,16 +5,16 @@ class Peon:
     RADIUS = 25
     PADDING = 3
 
-    def __init__(self, columna, fila):
+    def __init__(self, col, row):
         
-        self.columna = columna
-        self.fila = fila
-        self.reina = False
+        self.col = col
+        self.row = row
+        self.queen = False
         self.color = self.color_init()
         self.select = False
 
-    def soy_reina(self):
-        self.reina = True
+    def soy_queen(self):
+        self.queen = True
 
     def swicht_Select(self):
         if self.select:
@@ -22,21 +22,21 @@ class Peon:
         else:
             self.select = True
 
-    def mov(self, columna, fila):
-        self.fila = fila
-        self.columna = columna
-        if fila == 0 or fila == 7:
-           self.soy_reina()
+    def mov(self, col, row):
+        self.row = row
+        self.col = col
+        if row == 0 or row == 7:
+           self.soy_queen()
 
     def color_init(self):
-        if self.fila < 4:
+        if self.row < 4:
             return BLANCO
         else:
             return NEGRO
             
     def calc_position(self):
-        x = self.columna * DIMENSION_CASILLAS + DIMENSION_CASILLAS // 2
-        y = self.fila*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
+        x = self.col * DIMENSION_CASILLAS + DIMENSION_CASILLAS // 2
+        y = self.row*DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
         return x, y
 
     def draw(self, WIN):
@@ -49,7 +49,7 @@ class Peon:
 
         pygame.draw.circle(WIN, self.color, (x, y), self.RADIUS)
 
-        if self.reina:
+        if self.queen:
             WIN.blit(CORONA, (x - CORONA.get_width() //
                               2, y - CORONA.get_height()//2))
 

@@ -13,9 +13,9 @@ class TestCasePeon(unittest.TestCase):
     def test_Peon_Mover(self):
         peon = Peon(0, 0)
         peon.mover(4, 3)
-        self.assertEqual(peon.columna, 4)
-        self.assertEqual(peon.fila, 3)
+        self.assertEqual(peon.col, 4)
+        self.assertEqual(peon.row, 3)
 
-    def test_Peon_mover_para_Reina(self):
+    def test_Peon_mover_para_queen(self):
         pass
     

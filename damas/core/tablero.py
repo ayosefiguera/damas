@@ -1,24 +1,24 @@
 import pygame
 from .peon import Peon
-from .constantes import DIMENSION_CASILLAS, COLUMNAS, FILAS, BLANCO, NEGRO, AMARILLO
+from .constantes import DIMENSION_CASILLAS, COLS, ROWS, BLANCO, NEGRO, AMARILLO
 
 
 class Tablero:
 
     def __init__(self):
 
-        self.piezas_Blancas = 12
-        self.piezas_Negras = 12
-        self.reinas_Blancas = 12
-        self.reinas_Negras = 12
+        self.pieces_Blancas = 12
+        self.pieces_Negras = 12
+        self.queens_Blancas = 12
+        self.queens_Negras = 12
         self.tablero = []
         self.initiate()
-        self.validate = []
+        self.validate = {}
 
     def initiate(self):
-        for col in range(COLUMNAS):
+        for col in range(COLS):
             self.tablero.append([])
-            for fil in range(FILAS):
+            for fil in range(ROWS):
                 if col % 2 and fil % 2 and (3 > fil or fil > 4):
                     self.tablero[col].append(Peon(col, fil))
                 elif (fil + 1) % 2 and (col + 1) % 2 and (3 > fil or fil > 4):
@@ -28,90 +28,102 @@ class Tablero:
 
     def draw_damero(self, WIN):
         WIN.fill(NEGRO)
-        for col in range(COLUMNAS):
-            for fil in range(col % 2, FILAS, 2):
+        for col in range(COLS):
+            for fil in range(col % 2, ROWS, 2):
                 pygame.draw.rect(WIN, BLANCO, (col * DIMENSION_CASILLAS, fil * DIMENSION_CASILLAS, DIMENSION_CASILLAS, DIMENSION_CASILLAS))
         
-    def draw_piezas(self, WIN):
-        for col in range(COLUMNAS):
-            for fil in range(FILAS):
+    def draw_pieces(self, WIN):
+        for col in range(COLS):
+            for fil in range(ROWS):
                 if self.tablero[col][fil] != 0:
                     self.tablero[col][fil].draw(WIN)
 
+
     def draw_validate(self, WIN):
-        print('dibujando validaciones')
-        for pos in self.validate:
-            print(f'{pos}')
+        for pos in self.validate.keys():
             x = pos[0] * DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
             y = pos[1] * DIMENSION_CASILLAS + DIMENSION_CASILLAS//2
             pygame.draw.circle(WIN,(0,255,0),(x,y), 15)
 
-    def get_from_pos(self, col, fila):
-        return self.tablero[col][fila]
+    def get_from_pos(self, col, row):
+        if 0 <= col <= 7 and 0 <= row <= 7:
+           return self.tablero[col][row]
+        else:
+            return 0
 
-    def mov(self, pieza, col, fila):
-        self.tablero[pieza.columna][pieza.fila] = 0
-        pieza.mov(col, fila)
-        pieza.swicht_Select()
-        self.tablero[col][fila] = pieza
+    def remove_piece(self, piece):
+
+        self.tablero[piece.col][piece.row] = 0
+
+        if piece.color == BLANCO:
+            self.pieces_Blancas -= 1
+        else:
+            self.pieces_Negras -= 1
+        del(piece)
+
+    def mov(self, piece, col, row):
+
+        self.tablero[piece.col][piece.row] = 0
+        piece.mov(col, row)
+        piece.swicht_Select()
+        self.tablero[col][row] = piece
+        if self.validate[(col, row)][0] != None:
+            for elm in self.validate[(col, row)]:
+                self.remove_piece(elm)
 
     def restart_validate(self):
-        self.validate = []
+
+        self.validate = {}
     
-    
-    def get_valid_mov(self, piece):
-        self.restart_validate()
-        self.scan_left(piece.columna, piece.fila, piece.color)
-        self.scan_right(piece.columna, piece.fila, piece.color)
+    def get_valid_mov(self, piece, skip=None):
+        
+        VECTOR_SCAN = [-1, 1]
+
+        if not skip:
+            self.restart_validate()
+
+        if piece.color == BLANCO or piece.queen:
+            vy = 1
+            for vx in VECTOR_SCAN:
+                self.scan(piece, vx, vy, skip)
+
+        elif piece.color == NEGRO or piece.queen:
+            vy = - 1
+            for vx in VECTOR_SCAN:
+                self.scan(piece, vx, vy, skip)
 
     def is_Validate(self, pos):
-        if pos in self.validate:
+
+        if pos in self.validate.keys():
             return True
         else:
             return False
+  
+    def scan(self, piece, vx, vy, skip=None):
 
-    def scan(self, pos):
+            casilla = self.get_from_pos(piece.col + vx, piece.row + vy)
 
-        if 0 <= abs(pos[0]) <= 7 and 0 <= abs(pos[1]) <= 7:
-            casilla = self.get_from_pos(pos[0], pos[1]) 
-            return pos, casilla
-        else:
-            return pos, False
-        
-    def scan_left(self, row, col, color, skip=False):
+            if casilla != 0 and casilla.color != piece.color and skip == None:
+                         
+                self.scan(piece, vx+vx, vy+vy, skip=casilla)
 
-        if color == BLANCO:
-            pos, casilla = self.scan((row - 1, col + 1))
+            elif skip != None and casilla == 0:
+                
+                if (piece.col + vx, piece.row + vy) not in self.validate.keys():
+                    self.validate[(piece.col + vx, piece.row + vy)] = []
 
-        else:
-            pos, casilla = self.scan((row - 1, col - 1))
+                self.validate[(piece.col + vx, piece.row+ vy)].append(skip)
 
-        if casilla != 0 and casilla != color and skip == False:
+            elif casilla == 0:
+                if (piece.col + vx, piece.row + vy) not in self.validate.keys():
+                    self.validate[(piece.col +vx, piece.row + vy)] = []
 
-            self.scan_left(pos[0], pos[1], color, skip=True)
-
-        elif casilla == 0:
-            self.validate.append(pos)
-
-    def scan_right(self,  row, col, color, skip=False):
-
-        if color == BLANCO:
-            pos, casilla = self.scan((row + 1, col + 1))
-        else:
-            pos, casilla = self.scan((row + 1, col - 1))
-        
-        if casilla != 0 and casilla != color and skip == False:
-            
-            self.scan_right(pos[0], pos[1], color, skip=True)
-
-        elif casilla == 0:
-            self.validate.append(pos)
-        
+                self.validate[(piece.col + vx, piece.row + vy)].append(None)
 
 
     def draw(self, WIN):
         self.draw_damero(WIN)
-        self.draw_piezas(WIN)
+        self.draw_pieces(WIN)
         self.draw_validate(WIN)
         pygame.display.update()
 

@@ -14,8 +14,8 @@ AMARILLO = (204, 255, 229)
 CORONA = pygame.image.load('damas/assets/queen.png')
 
 #Tablero
-COLUMNAS = FILAS = 8
+COLS = ROWS = 8
 
-DIMENSION_CASILLAS = WIDTH / COLUMNAS
+DIMENSION_CASILLAS = WIDTH / COLS
 
 

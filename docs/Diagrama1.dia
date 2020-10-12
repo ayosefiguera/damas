@@ -468,7 +468,7 @@
       <dia:attribute name="attributes">
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#piezas_rojas#</dia:string>
+            <dia:string>#pieces_rojas#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>#int#</dia:string>
@@ -491,7 +491,7 @@
         </dia:composite>
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#piezas_blancas#</dia:string>
+            <dia:string>#pieces_blancas#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>#int#</dia:string>
@@ -514,7 +514,7 @@
         </dia:composite>
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#reinas_rojas#</dia:string>
+            <dia:string>#queens_rojas#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>#int#</dia:string>
@@ -537,7 +537,7 @@
         </dia:composite>
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#reinas_blancas#</dia:string>
+            <dia:string>#queens_blancas#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>#int#</dia:string>
@@ -765,7 +765,7 @@
       <dia:attribute name="attributes">
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#Fila#</dia:string>
+            <dia:string>#row#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>#entero#</dia:string>
@@ -774,7 +774,7 @@
             <dia:string>#0#</dia:string>
           </dia:attribute>
           <dia:attribute name="comment">
-            <dia:string>#Tiene como valor la fila que ocupa.#</dia:string>
+            <dia:string>#Tiene como valor la row que ocupa.#</dia:string>
           </dia:attribute>
           <dia:attribute name="visibility">
             <dia:enum val="0"/>
@@ -788,7 +788,7 @@
         </dia:composite>
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#Columna#</dia:string>
+            <dia:string>#col#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>#entero#</dia:string>
@@ -797,7 +797,7 @@
             <dia:string>#0#</dia:string>
           </dia:attribute>
           <dia:attribute name="comment">
-            <dia:string>#Tiene como valor la columna que ocupa.#</dia:string>
+            <dia:string>#Tiene como valor la col que ocupa.#</dia:string>
           </dia:attribute>
           <dia:attribute name="visibility">
             <dia:enum val="0"/>
@@ -820,7 +820,7 @@
             <dia:string>#False#</dia:string>
           </dia:attribute>
           <dia:attribute name="comment">
-            <dia:string>#Diferencia entre una ficha peo y una reina.#</dia:string>
+            <dia:string>#Diferencia entre una ficha peo y una queen.#</dia:string>
           </dia:attribute>
           <dia:attribute name="visibility">
             <dia:enum val="0"/>
@@ -889,7 +889,7 @@
         </dia:composite>
         <dia:composite type="umloperation">
           <dia:attribute name="name">
-            <dia:string>#ser_Reina#</dia:string>
+            <dia:string>#ser_queen#</dia:string>
           </dia:attribute>
           <dia:attribute name="stereotype">
             <dia:string>##</dia:string>
