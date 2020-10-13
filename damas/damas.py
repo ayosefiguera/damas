@@ -1,5 +1,6 @@
 import pygame
-from core.constantes import WIDTH, HEIGHT, FPS, DIMENSION_CASILLAS
+from time import sleep
+from core.constantes import WIDTH, HEIGHT, FPS, DIMENSION_CASILLAS, OPENING
 from core.tablero import Tablero
 from core.game import Game
 
@@ -13,9 +14,14 @@ def piece_position(event_pos):
 
 
 def main():
-    juego = Game()
+    juego = Game(WIN)
     clock = pygame.time.Clock()
     run = True
+
+    WIN.blit(OPENING, (0, 0))
+    print(OPENING.get_width())
+    pygame.display.flip()
+    sleep(5)
 
     while run:
 
@@ -32,5 +38,5 @@ def main():
 
             if event.type == pygame.QUIT:
                 run = False
-        juego.draw(WIN)    
+        juego.draw()    
 main()

@@ -1,6 +1,6 @@
 import pygame
 from .peon import Peon
-from .constantes import DIMENSION_CASILLAS, COLS, ROWS, BLANCO, NEGRO, AMARILLO
+from .constantes import DIMENSION_CASILLAS, COLS, ROWS, BLANCO, NEGRO, AMARILLO, WHITE_WIN, BLACK_WIN
 
 
 class Tablero:
@@ -9,8 +9,8 @@ class Tablero:
 
         self.pieces_Blancas = 12
         self.pieces_Negras = 12
-        self.queens_Blancas = 12
-        self.queens_Negras = 12
+        self.queens_Blancas = 0
+        self.queens_Negras = 0
         self.tablero = []
         self.initiate()
         self.validate = {}
@@ -51,6 +51,14 @@ class Tablero:
         else:
             return 0
 
+    def winner(self):
+        if self.pieces_Blancas == 0:
+            return BLACK_WIN
+        elif self.pieces_Negras == 0:
+            return WHITE_WIN
+        else:
+            return False
+
     def remove_piece(self, piece):
 
         self.tablero[piece.col][piece.row] = 0
@@ -87,7 +95,7 @@ class Tablero:
             for vx in VECTOR_SCAN:
                 self.scan(piece, vx, vy, skip)
 
-        elif piece.color == NEGRO or piece.queen:
+        if piece.color == NEGRO or piece.queen:
             vy = - 1
             for vx in VECTOR_SCAN:
                 self.scan(piece, vx, vy, skip)
@@ -129,5 +137,6 @@ class Tablero:
 
     def select_piece(self, piece):
         piece.swicht_Select()
+        self.get_valid_mov(piece)
 
 
